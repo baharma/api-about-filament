@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('rete_plans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("room_id")->references("id")->on("rooms");
+            $table->string("name");
+            $table->string("slug");
+            $table->longText("detail");
+            $table->double("price");
             $table->timestamps();
         });
     }

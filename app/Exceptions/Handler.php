@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -27,4 +29,32 @@ class Handler extends ExceptionHandler
             //
         });
     }
+    public function render($request, Throwable $exception)
+    {
+        // Menangani error 404
+        if ($exception instanceof NotFoundHttpException) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Halaman tidak ditemukan.',
+                'data'=>[]
+            ], 404);
+        }
+
+        // Menangani error 500
+        if ($exception instanceof HttpException) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan pada server.',
+                'data'=>[]
+            ], $exception->getStatusCode());
+        }
+
+        // Menangani error lainnya
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Terjadi kesalahan: ' . $exception->getMessage(),
+            'data'=>[]
+        ], 500);
+    }
+
 }

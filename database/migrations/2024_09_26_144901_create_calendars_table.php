@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('calendars', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("room_id")->references('id')->on("rooms");
+            $table->foreignId("rateplan_id")->references("id")->on("rete_plans");
+            $table->date('date');
+            $table->integer('availability');
+            $table->double("price");
             $table->timestamps();
         });
     }
