@@ -22,8 +22,10 @@ Route::prefix('/v1')->group(function(){
     Route::put('room/{id}', [RoomController::class, 'edit']);
     Route::delete('room/{id}',[RoomController::class,'delete']);
 
-
-    Route::get('rate-plant',[RatePlanController::class,''])
+    Route::get('rate-plant',[RatePlanController::class,'index']);
+    Route::post('rate-plant',[RatePlanController::class,'creates']);
+    Route::put('rate-plant/{id}', [RatePlanController::class, 'update']);
+    Route::delete('rate-plant/{id}',[RatePlanController::class,'delete']);
 
 
 });

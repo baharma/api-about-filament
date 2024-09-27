@@ -19,5 +19,7 @@ class RatePlanRepositoryImplement extends Eloquent implements RatePlanRepository
         $this->model = $model;
     }
 
-    // Write something awesome :)
+    public function updates($id, array $data){
+        return $this->model->find($id)->update($data);
+    }
 }

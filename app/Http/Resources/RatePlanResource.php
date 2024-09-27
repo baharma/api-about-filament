@@ -14,6 +14,13 @@ class RatePlanResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id'=>$this->id,
+            'room'=>$this->room->name,
+            'name'=>$this->name,
+            'slug'=>$this->slug,
+            'detail'=>$this->detail,
+            'price'=>$this->price
+        ];
     }
 }

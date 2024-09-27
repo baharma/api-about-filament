@@ -21,7 +21,6 @@ class RetePlan extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($room) {
             $room->slug = Str::slug($room->name);
             $baseSlug = $room->slug;
@@ -32,5 +31,8 @@ class RetePlan extends Model
                 $count++;
             }
         });
+    }
+    public function room(){
+        return $this->belongsTo(Room::class,'room_id','id');
     }
 }
