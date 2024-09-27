@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\RatePlanController;
 use App\Http\Controllers\RoomController;
 use Illuminate\Http\Request;
@@ -26,6 +28,16 @@ Route::prefix('/v1')->group(function(){
     Route::post('rate-plant',[RatePlanController::class,'creates']);
     Route::put('rate-plant/{id}', [RatePlanController::class, 'update']);
     Route::delete('rate-plant/{id}',[RatePlanController::class,'delete']);
+
+    Route::get('calendar',[CalendarController::class,'index']);
+    Route::post('calendar',[CalendarController::class,'create']);
+    Route::put('calendar/{id}', [CalendarController::class, 'update']);
+    Route::delete('calendar/{id}',[CalendarController::class,'delete']);
+
+    Route::get('booking',[BookingController::class,'index']);
+    Route::post('booking',[BookingController::class,'store']);
+    Route::put('booking/{id}',[BookingController::class,'update']);
+    Route::delete('booking/{id}',[BookingController::class,'delete']);
 
 
 });

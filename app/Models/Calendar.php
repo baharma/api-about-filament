@@ -16,4 +16,11 @@ class Calendar extends Model
         'availability',
         'price'
     ];
+
+    public function room(){
+        return $this->belongsTo(Room::class, 'room_id','id');
+    }
+    public function rateplan(){
+        return $this->belongsTo(RetePlan::class, 'rateplan_id','id');
+    }
 }

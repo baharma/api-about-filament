@@ -14,6 +14,13 @@ class CalendarResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id'=>$this->id,
+            'room'=>$this->room->name,
+            'rate_plan'=>$this->rateplan->name,
+            'date'=>$this->date,
+            'availability'=>$this->availability,
+            'price'=>$this->price,
+        ];
     }
 }
