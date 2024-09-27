@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
     use HasFactory;
-    protected $table = "calendars";
+    protected $table = "bookings";
     protected $fillable = [
         'room_id',
         'rateplan_id',
@@ -21,4 +21,14 @@ class Booking extends Model
         'email',
         'phone_number'
     ];
+
+    public function room(){
+        return $this->belongsTo(Room::class, 'room_id','id');
+    }
+    public function rateplan(){
+        return $this->belongsTo(RetePlan::class, 'rateplan_id','id');
+    }
+    public function calendar(){
+        return $this->belongsTo(Calendar::class, 'calendar_id','id');
+    }
 }
