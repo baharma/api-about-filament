@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RatePlanController;
 use App\Http\Controllers\RoomController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,5 +20,11 @@ Route::prefix('/v1')->group(function(){
     Route::get('room',[RoomController::class,'index']);
     Route::post('room',[RoomController::class,'store']);
     Route::put('room/{id}', [RoomController::class, 'edit']);
+    Route::delete('room/{id}',[RoomController::class,'delete']);
+
+
+    Route::get('rate-plant',[RatePlanController::class,''])
+
+
 });
 

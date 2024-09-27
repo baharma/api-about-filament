@@ -82,4 +82,14 @@ class RoomController extends Controller
         ]);
     }
 
+    public function delete($id){
+        $data = $this->repositoryRoom->delete($id);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data kamar berhasil Di Delete.',
+            'data' =>$data
+        ]);
+    }
+
 }
