@@ -20,9 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/v1')->group(function(){
 
     Route::get('room',[RoomController::class,'index']);
+    Route::get('room/{id}',[RoomController::class,'findId']);
     Route::post('room',[RoomController::class,'store']);
     Route::put('room/{id}', [RoomController::class, 'edit']);
     Route::delete('room/{id}',[RoomController::class,'delete']);
+
 
     Route::get('rate-plant',[RatePlanController::class,'index']);
     Route::post('rate-plant',[RatePlanController::class,'creates']);
@@ -31,6 +33,7 @@ Route::prefix('/v1')->group(function(){
 
     Route::get('calendar',[CalendarController::class,'index']);
     Route::post('calendar',[CalendarController::class,'create']);
+    Route::get('calendars/{id}',[CalendarController::class,'findId']);
     Route::put('calendar/{id}', [CalendarController::class, 'update']);
     Route::delete('calendar/{id}',[CalendarController::class,'delete']);
 

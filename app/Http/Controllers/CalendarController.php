@@ -6,12 +6,15 @@ use App\Http\Resources\CalendarResource;
 use App\Http\Resources\RatePlanResource;
 use App\Repositories\Calendar\CalendarRepository;
 use App\Repositories\RatePlan\RatePlanRepository;
+use App\Traits\ApiResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
     protected $repositoryCalendar;
     protected $repositoryRatePlan;
+    use ApiResponse;
 
     public function __construct(
         CalendarRepository $repositoryCalendar,
@@ -21,16 +24,12 @@ class CalendarController extends Controller
         $this->repositoryRatePlan = $ratePlanRepository;
     }
 
-    public function index(){
+    public function index(): JsonResponse{
         $data = $this->repositoryCalendar->all();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data Calendar berhasil diambil.',
-            'data' => RatePlanResource::collection($data)
-        ]);
+        return $this->apiSuccess(RatePlanResource::collection($data),'data berhasil didapatkan');
     }
 
-    public function create(Request $request){
+    public function create(Request $request): JsonResponse{
         $price = $this->repositoryRatePlan->find($request->rateplan_id);
         $data = $this->repositoryCalendar->create([
             'room_id'=>$request->room_id,
@@ -39,14 +38,10 @@ class CalendarController extends Controller
             'availability'=>$request->availability,
             'price'=>$price->price
         ]);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data Calendar berhasil ditambahkan.',
-            'data' => new CalendarResource($data)
-         ]);
+        return $this->apiSuccess(new CalendarResource($data),'Data Berhasil di tambahkan');
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id): JsonResponse {
         $calendar = $this->repositoryCalendar->find($id);
         $price = $this->repositoryRatePlan->find($request->rateplan_id);
 
@@ -60,20 +55,16 @@ class CalendarController extends Controller
 
         $this->repositoryCalendar->update($id, $data);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data Calendar berhasil Update.',
-            'data' => new CalendarResource($this->repositoryCalendar->find($id))
-        ]);
+        return $this->apiSuccess(new CalendarResource($this->repositoryCalendar->find($id)),'data Berhasil di update');
+    }
+    public function delete($id): JsonResponse{
+        $data = $this->repositoryCalendar->delete($id);
+        return $this->apiSuccess($data,'data calendar berhasil di delete');
     }
 
-    public function delete($id){
-        $data = $this->repositoryCalendar->delete($id);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data Calender berhasil Di Delete.',
-            'data' => $data
-        ]);
+    public function findId($id) : JsonResponse{
+        $data = $this->repositoryCalendar->find($id);
+        return $this->apiSuccess($data,'data calendar berhasil di find');
     }
 
 }

@@ -6,6 +6,7 @@ use App\Http\Requests\RoomRequest;
 use App\Http\Resources\RoomResource;
 use App\Repositories\Room\RoomRepository;
 use App\Traits\UploadHendler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -17,7 +18,7 @@ class RoomController extends Controller
         $this->repositoryRoom = $repositoryRoom;
     }
 
-    public function index(){
+    public function index(): JsonResponse{
         $rooms = $this->repositoryRoom->all();
         return response()->json([
             'status' => 'success',
@@ -25,7 +26,7 @@ class RoomController extends Controller
             'data' => RoomResource::collection($rooms)
         ]);
     }
-    public function store(RoomRequest $request){
+    public function store(RoomRequest $request): JsonResponse{
         $image = $this->uploadImageHelper($request->images,'room/image');
         $room = $this->repositoryRoom->create([
             'name' => $request->name,
@@ -42,7 +43,7 @@ class RoomController extends Controller
         ]);
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $id): JsonResponse
     {
 
         $image = null;
@@ -82,13 +83,13 @@ class RoomController extends Controller
         ]);
     }
 
-    public function delete($id){
+    public function delete($id): JsonResponse{
         $data = $this->repositoryRoom->delete($id);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Data kamar berhasil Di Delete.',
-            'data' =>$data
+            'data' => $data
         ]);
     }
 

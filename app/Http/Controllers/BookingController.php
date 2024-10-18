@@ -6,13 +6,15 @@ use App\Http\Resources\BookingResource;
 use App\Repositories\Booking\BookingRepository;
 use App\Repositories\Calendar\CalendarRepository;
 use App\Repositories\RatePlan\RatePlanRepository;
+use App\Traits\ApiResponse;
 use App\Traits\RamdomHendler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
     use RamdomHendler;
-
+    use ApiResponse;
     protected $repositoryBooking;
     protected $calendarRepository;
     protected $planRateRepository;
@@ -27,16 +29,12 @@ class BookingController extends Controller
         $this->calendarRepository = $calendarRepository;
     }
 
-    public function index(){
+    public function index() : JsonResponse{
         $bookings = $this->repositoryBooking->all();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data Calendar berhasil diambil.',
-            'data' => BookingResource::collection($bookings)
-        ]);
+        return $this->apiSuccess(BookingResource::collection($bookings),'berhasil didapatkan');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request) : JsonResponse{
         $calendarFind = $this->calendarRepository->find($request->calendar_id);
         $hasil = $calendarFind->availability - 1;
         $date = now()->format('Y-m-d');
@@ -57,14 +55,10 @@ class BookingController extends Controller
             'phone_number' => $request->phone_number
         ]);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data Calendar berhasil Dibuat.',
-            'data' => new BookingResource($booking)
-        ]);
+        return $this->apiSuccess(new BookingResource($booking),'berhasil');
     }
 
-    public function update($id, Request $request) {
+    public function update($id, Request $request) : JsonResponse {
         // Find the existing booking
         $bookingBefore = $this->repositoryBooking->find($id);
 
@@ -121,24 +115,21 @@ class BookingController extends Controller
         // Retrieve the updated booking
         $dataBooking = $this->repositoryBooking->find($id);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data Booking berhasil Update',
-            'data' => new BookingResource($dataBooking)
-        ]);
+        return $this->apiSuccess(new BookingResource($dataBooking),'api berhasil di update');
     }
-    public function delete($id){
+    public function delete(int $id) : JsonResponse {
         $dataBooking = $this->repositoryBooking->find($id);
         $dataCalendar = $this->calendarRepository->find($dataBooking->calendar_id);
         $this->calendarRepository->update($dataBooking->calendar_id,[
             'availability' => $dataCalendar->availability + 1
         ]);
         $data = $this->repositoryBooking->delete($id);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data Booking berhasil Delete',
-            'data' => $data
-        ]);
+        return $this->apiSuccess($data,'data berhasil di delete');
+    }
+
+    public function findId(int  $id) : JsonResponse  {
+        $data = $this->repositoryBooking->find($id);
+        return $this->apiSuccess($data,'api berhasil');
     }
 
 }
