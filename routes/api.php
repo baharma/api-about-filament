@@ -27,6 +27,7 @@ Route::prefix('/v1')->group(function(){
 
 
     Route::get('rate-plant',[RatePlanController::class,'index']);
+    Route::get('rate-plant',[RatePlanController::class,'findId']);
     Route::post('rate-plant',[RatePlanController::class,'creates']);
     Route::put('rate-plant/{id}', [RatePlanController::class, 'update']);
     Route::delete('rate-plant/{id}',[RatePlanController::class,'delete']);
@@ -38,6 +39,7 @@ Route::prefix('/v1')->group(function(){
     Route::delete('calendar/{id}',[CalendarController::class,'delete']);
 
     Route::get('booking',[BookingController::class,'index']);
+    Route::get('booking/{id}',[BookingController::class,'findId']);
     Route::post('booking',[BookingController::class,'store']);
     Route::put('booking/{id}',[BookingController::class,'update']);
     Route::delete('booking/{id}',[BookingController::class,'delete']);
