@@ -14,7 +14,7 @@ trait ApiResponse{
      * @param string|null $message
      * @return JsonResponse
      */
-    public function apiSuccess(array|AnonymousResourceCollection|JsonResource|null $data = [], string $message = null): JsonResponse
+    public function apiSuccess(mixed $data = [], string $message = null): JsonResponse
     {
         return $this->buildResponse($data, $message);
     }
@@ -26,7 +26,7 @@ trait ApiResponse{
      * @param int $code
      * @return JsonResponse
      */
-    private function buildResponse(array|null $data = [], string $message = null, int $code = 200): JsonResponse
+    private function buildResponse(mixed $data = [], string $message = null, int $code = 200): JsonResponse
     {
         return response()->json([
             "status" => $code,
